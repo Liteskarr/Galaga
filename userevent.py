@@ -17,4 +17,4 @@ class UserEvent:
             UserEvent._last += 1
 
     def __int__(self):
-        return self._number
+        return pygame.USEREVENT + self._number
