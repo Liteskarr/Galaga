@@ -1,6 +1,4 @@
-# Galaga
-
-Pygame galaga port.
+# Unnamed game 
 
 ## Dependencies:
 -Pygame
