@@ -1,21 +1,18 @@
-# This is state machine.
+# This is simple state machine.
 import pygame
 
-from event import Event
-
-# Pygame initialization.
-if not pygame.get_init():
-    pygame.init()
+from system.event import Event
 
 # Main clock.
 clock = pygame.time.Clock()
 
 # Pygame window variables.
-window_surface = None
-window_size = None
-window_title = None
+surface: pygame.Surface = None
+size: tuple = None
+title: str = None
 
 # Window events.
+user_event = Event()
 mouse_button_up_event = Event()
 mouse_button_down_event = Event()
 mouse_motion_event = Event()
@@ -24,26 +21,26 @@ keyup_event = Event()
 quit_event = Event()
 
 
-def set_mode(size: tuple, flags=0) -> pygame.Surface:
+def set_mode(wsize: tuple, flags=0) -> pygame.Surface:
     """
     Sets size and flags for window.
     :param size: tuple[int, int].
     :param flags: int.
     :return: pygame.Surface.
     """
-    global window_surface, window_size
-    window_size = size
-    window_surface = pygame.display.set_mode(size, flags)
-    return window_surface
+    global surface, size
+    size = wsize
+    surface = pygame.display.set_mode(size, flags)
+    return surface
 
 
-def set_title(title: str) -> None:
+def set_title(wtitle: str) -> None:
     """
     Sets title for window.
-    :param title:
+    :param wtitle: Title of window.
     """
-    global window_title
-    window_title = title
+    global title
+    title = wtitle
     pygame.display.set_caption(title)
 
 
@@ -72,6 +69,8 @@ def poll_events() -> None:
             keyup_event.notify(e.key, e.mod)
         elif e.type == pygame.KEYDOWN:
             keydown_event.notify(e.unicode, e.key, e.mod)
+        elif e.type == pygame.USEREVENT:
+            user_event.notify(e.code)
 
 
 def clear(color: tuple = (255, 255, 255)) -> None:
@@ -79,8 +78,8 @@ def clear(color: tuple = (255, 255, 255)) -> None:
     Clear window surface.
     :param color: tuple[int, int, int, <int>].
     """
-    global window_surface
-    window_surface.fill(color)
+    global surface
+    surface.fill(color)
 
 
 def update(framerate=0) -> None:
