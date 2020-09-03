@@ -1,4 +1,4 @@
-# Galaga
+# Unnamed game 
 
 ## Dependencies:
 -Pygame
