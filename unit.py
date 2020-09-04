@@ -2,10 +2,12 @@ import collections
 
 import terrain
 import unit_type
+import player
 
 
 class Unit:
     _tag: str = 'unit'
+
     _terrain_white_list: list = []
     _attack_for_types: dict = {}
     _attack_on_terrain: dict = {}
@@ -17,7 +19,8 @@ class Unit:
     _base_move_points: int = 0
     _base_health: int = 100
 
-    def __init__(self):
+    def __init__(self, owner):
+        self.owner = owner
         self.health = self._base_health
         self.move_points = self._base_move_points
 
@@ -27,7 +30,10 @@ class Unit:
                     self._attack_on_terrain.get(terra, 0) +
                     terra.base_strength) * (self.health / self._base_strength))
 
-    def get_tag(self):
+    def can_unit_move_on(self, terra: type) -> bool:
+        return terra in self._terrain_white_list
+
+    def get_tag(self) -> str:
         return self._tag
 
 
